@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Car</title>
+</head>
+<body>
+  <h1>Add Car</h1>
+  <form action="/addCar" method="post" enctype="multipart/form-data">
+    <label for="model">Model:</label>
+    <input type="text" name="model" id="model" required><br><br>
+    <label for="make">Make:</label>
+    <input type="text" name="make" id="make" required><br><br>
+    <label for="year">Year:</label>
+    <input type="number" name="year" id="year" required><br><br>
+    <label for="color">Color:</label>
+    <input type="text" name="color" id="color" required><br><br>
+    <label for="price">Price:</label>
+    <input type="number" name="price" id="price" required><br><br>
+    <label for="mileage">Mileage:</label>
+    <input type="number" name="mileage" id="mileage" required><br><br>
+    <label for="fuel_efficiency">Fuel Efficiency:</label>
+    <input type="number" name="fuel_efficiency" id="fuel_efficiency" required><br><br>
+    <label for="type">Type:</label>
+    <input type="text" name="type" id="type" required><br><br>
+    <label for="status">Status:</label>
+    <select name="status" id="status" required>
+      <option value="available">Available</option>
+      <option value="sold">Sold</option>
+      <option value="hold">Hold</option>
+    </select>
+    <br><br>
+    <label for="image">Image:</label>
+    <input type="file" name="image" id="image" required><br><br>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" required></textarea><br><br>
+    <button type="submit">Add Car</button>
+  </form>
+</body>
+</html>

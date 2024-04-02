@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Collection</title>
+  <style>
+    .car-card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px;
+      width: 300px; /* Adjust width as needed */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .car-card .model {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .car-card img {
+      width: 100%;
+      height: 150px; /* Adjust height as needed */
+      object-fit: cover; /* Scale image to fit */
+    }
+
+    .car-details {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .car-details span {
+      margin-right: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .button {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Car Collection</h1>
+  <a href="/addCar">
+    <button class="add-car-button">Add Car</button>
+  </a>
+  <div class="car-container">
+    <% for (const car of cars) { %>
+      <div class="car-card">
+        <h3 class="model"><%= car.model %></h3>
+        <img src="<%= car.image %>" alt="<%= car.model %> image">
+        <div class="car-details">
+          <span>Make: <%= car.make %></span>
+          <span>Year: <%= car.year %></span>
+          <span>Status: <%= car.status %></span>
+        </div>
+        <% if (req.user && req.user.role !== roles.User) { %>
+        <div class="button-container">
+          <button class="button" onclick="return confirm('Are you sure you want to delete this car?')">Delete</button>
+          <a href="/updateCar/<%= car._id %>"> <button class="button">Update</button>
+          </a>
+        </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Dealership - Register</title>
+</head>
+<body>
+  <h1>Car Dealership Registration</h1>
+  <form action="/register" method="POST">
+
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" minlength="8" required><br><br>
+    <span>Password must be at least 8 characters long.</span><br>
+
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" name="confirmPassword" id="confirmPassword" minlength="8" required><br><br>
+    <span>Passwords must match.</span><br>
+
+    <label for="contact_number">Contact Number:</label>
+    <input type="tel" name="contact_number" id="contact_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br><br>
+    <span>Contact number must be in the format XXX-XXX-XXXX.</span><br>
+
+    <label>Role:</label><br>
+    <input type="radio" name="role" id="role-user" value="user" checked> User<br>
+    <input type="radio" name="role" id="role-admin" value="admin"> Admin<br>
+    <input type="radio" name="role" id="role-saleperson" value="saleperson"> Salesperson<br><br>
+
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

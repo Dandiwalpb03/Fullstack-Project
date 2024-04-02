@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Car</title>
+</head>
+<body>
+  <h1>Update Car</h1>
+  <% if (typeof errorMessage !== 'undefined') { %>
+    <p style="color: red;">Error: <%= errorMessage %></p>
+  <% } %>
+  <form action="/updateCar/<%= car._id %>" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_id" value="<%= car._id %>">
+    <label for="model">Model:</label>
+    <input type="text" name="model" id="model" value="<%= car.model %>"> <br>
+    <label for="make">Make:</label>
+    <input type="text" name="make" id="make" value="<%= car.make %>"> <br>
+    <label for="year">Year:</label>
+    <input type="number" name="year" id="year" min="1900" max="<%= new Date().getFullYear() %>" value="<%= car.year %>"> <br>
+    <label for="color">Color:</label>
+    <input type="text" name="color" id="color" value="<%= car.color %>"> <br>
+    <label for="price">Price:</label>
+    <input type="number" name="price" id="price" min="0" value="<%= car.price %>"> <br>
+    <label for="mileage">Mileage:</label>
+    <input type="number" name="mileage" id="mileage" min="0" value="<%= car.mileage %>"> <br>
+    <label for="fuel_efficiency">Fuel Efficiency (MPG):</label>
+    <input type="number" name="fuel_efficiency" id="fuel_efficiency" min="0" value="<%= car.fuel_efficiency %>"> <br>
+    <label for="type">Type:</label>
+    <input type="text" name="type" id="type" value="<%= car.type %>"> <br>
+    <label for="status">Status:</label>
+    <select name="status" id="status">
+      <option value="available" <%= car.status === 'available' ? 'selected' : '' %>>Available</option>
+      <option value="sold" <%= car.status === 'sold' ? 'selected' : '' %>>Sold</option>
+      <option value="hold" <%= car.status === 'hold' ? 'selected' : '' %>>Hold</option>
+    </select> <br>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" rows="5"><%= car.description %></textarea> <br>
+    <label for="image">Update Image (optional):</label>
+    <input type="file" name="image" id="image"> <br>
+    <button type="submit">Update Car</button>
+  </form>
+</body>
+</html>
