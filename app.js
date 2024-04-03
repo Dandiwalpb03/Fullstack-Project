@@ -34,6 +34,8 @@ app.use(
     cookie: { secure: true }, 
   })
 );
+
+
 const checkUserRole = (req, res, next) => {
   if (!req.user) { 
     return res.status(401).send('Unauthorized');
@@ -55,7 +57,6 @@ const checkUserRole = (req, res, next) => {
   next();
 };
 
-app.use(checkUserRole);
 app.use('/updateCar/:id', checkUserRole);
 app.use('/deleteCar/:id', checkUserRole);
 app.use(passport.initialize());
@@ -81,10 +82,33 @@ const getNextUserId = async () => {
 
 
 
+  app.get('/Home', async (req, res) => {
+    try {
+      const cars = await Car.find();
+      const isLoggedIn = req.session && req.session.user;
+      const user = isLoggedIn ? await User.findById(req.session.user._id) : null;
   
+      let templateData = {
+        cars,
+        isLoggedIn,
+      };
+  
+      if (user) {
+        templateData.user = user;
+        templateData.canEdit = user.role === roles.Admin || user.role === roles.Salesperson;
+        templateData.canDelete = user.role === roles.Admin;
+      }
+  
+      res.render('Home', templateData);
+    } catch (err) {
+      console.error('Error fetching cars:', err);
+      res.status(500).send('Error retrieving car data');
+    }
+  });
+
 
 app.get('/', (req, res) => {
-    res.render('Home'); 
+    res.render('register'); 
   });
 
   app.get('/LoginPage', (req, res) => {
@@ -163,8 +187,8 @@ app.post('/login', async (req, res) => {
     return res.status(401).send('Invalid username, password, or email');
   }
 
-  res.send(`Welcome ${email}`);
-  
+  // Redirect to the home page after successful authentication
+  res.redirect('/Home');
 });
 // app.post('/login', async (req, res) => {
 //   const { email, password } = req.body;
@@ -237,22 +261,14 @@ app.post('/addCar', upload.single('image'), async (req, res) => {
   }
 });
 
-app.get('/Home', async (req, res) => {
-  try {
-    const cars = await Car.find(); 
-    res.render('home', { cars }); 
-  } catch (err) {
-    console.error('Error fetching cars:', err);
-    res.status(500).send('Error retrieving car data');
-  }
-});
+
 
 const updateCar = async (req, res) => {
   try {
     const { carId, make, model, year, ...otherFields } = req.body;
 
     // Find the car by ID
-    const car = await User.findByIdAndUpdate(carId, {
+    const car = await Car.findByIdAndUpdate(carId, {
       make,
       model,
       year,
@@ -277,7 +293,7 @@ const updateCar = async (req, res) => {
   }
 };
 
-app.get('/updateCar/:id', async (req, res) => {
+app.get('/updateCar/:id',checkUserRole, async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
     if (!car) {
@@ -290,7 +306,7 @@ app.get('/updateCar/:id', async (req, res) => {
   }
 });
 
-app.delete('/deleteCar/:id', async (req, res) => {
+app.delete('/deleteCar/:id', checkUserRole,async (req, res) => {
   try {
     const deletedCar = await Car.findByIdAndDelete(req.params.id);
     if (!deletedCar) {

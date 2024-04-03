@@ -67,15 +67,17 @@
           <span>Year: <%= car.year %></span>
           <span>Status: <%= car.status %></span>
         </div>
-        <% if (req.user && req.user.role !== roles.User) { %>
-        <div class="button-container">
-          <button class="button" onclick="return confirm('Are you sure you want to delete this car?')">Delete</button>
-          <a href="/updateCar/<%= car._id %>"> <button class="button">Update</button>
-          </a>
-        </div>
+        <% if (user && (user.canEdit || user.canDelete)) { %>
+          <div class="button-container">
+            <% if (user.canDelete) { %>
+            <button class="button" onclick="return confirm('Are you sure you want to delete this car?')">Delete</button>
+            <% } %>
+            <% if (user.canEdit) { %>
+            <a href="/updateCar/<%= car._id %>"> <button class="button">Update</button>
+            </a>
+            <% } %>
+          </div>
         <% } %>
-      </div>
-    <% } %>
   </div>
 </body>
 </html>
